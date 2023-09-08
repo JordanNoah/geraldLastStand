@@ -57,8 +57,6 @@ export default {
                     this.$store.commit('createJwt',response.data.token)
                     this.$router.push({name:'dashboard'})
                 }
-
-                console.log("=");
             }
         }
     }

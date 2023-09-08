@@ -26,6 +26,16 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    async checkTokenLive(state){
+      provider.setToken(state.state.jwt)
+      var isAlive = await provider.getAccount()
+      if ((isAlive.response != undefined && isAlive.response.status === 401) || isAlive.status != 200) {
+        localStorage.removeItem('token')
+        return false;
+      }else{
+        return true;
+      }
+    }
   },
   modules: {
   }

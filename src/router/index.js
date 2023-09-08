@@ -2,7 +2,11 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '../views/Login'
 import Dashboard from '../views/Dashboard'
-
+import Student from '../views/Student'
+import Enrollment from '../views/Enrollment'
+import Scores from '../views/Scores'
+import Inspections from '../views/Inspections'
+import Tutorship from '../views/Tutorship'
 import store from '@/store'
 
 Vue.use(VueRouter)
@@ -21,10 +25,37 @@ const routes = [
     path:'/dashboard',
     component: Dashboard,
     name:'dashboard',
-    beforeEnter: (to,from,next) => {
-      if (store.state.jwt) next()
+    children:[
+      {
+        path:'student',
+        component: Student,
+        name:'student'
+      },
+      {
+        path:'enrollment',
+        component: Enrollment,
+        name:'enrollment'
+      },
+      {
+        path:'scores',
+        component: Scores,
+        name:'scores'
+      },
+      {
+        path:'inspections',
+        component: Inspections,
+        name:'inspections'
+      },
+      {
+        path:'tutorships',
+        component: Tutorship,
+        name:'tutorships'
+      }
+    ],
+    beforeEnter: async (to,from,next) => {
+      if (store.state.jwt && await store.dispatch('checkTokenLive')) next()
       else next({name:'login'})
-    }
+    },
   },
   {
     path:'/',

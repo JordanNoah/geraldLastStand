@@ -1,4 +1,5 @@
 import axios from "axios";
+//import store from "@/store"
 
 axios.defaults.baseURL = process.env.VUE_APP_BASE_URL
 
@@ -16,8 +17,13 @@ const provider = {
         return await axios.delete(`/auth/sign-out`)
     },
     //students routes
-    getStudents: async () => {
-        return await axios.get(`/students`)
+    getStudents: async (filters) => {
+        return await axios.get(`/students`,{
+            params:filters
+        }).catch((e)=>{
+            return e;
+            //store.commit('deleteJwt')
+        })
     },
     postStudent: async (body) => {
         return await axios.post(`/students`,body)
@@ -81,7 +87,7 @@ const provider = {
     },
     //account
     getAccount: async() => {
-        return await axios.get(`/account`)
+        return await axios.get(`/account`).catch((e)=>{return e;})
     },
     putAccount: async() => {
         return await axios.put(`/account/password-reset`)
